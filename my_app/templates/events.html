@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row my-5">
+    <h2 class = "col-10">Your events:</h2>
+    <div class = "col-2">
+        <a class="btn btn-primary " href="{% url 'newEvent' %}">Create new event</a>
+    </div>
+</div>
+
+<table class="table" id="eventTable">
+{% for event in events %}
+    <tr>
+        <td>
+            <a href="{% url 'dashboardView' event.eventID %}">{{event.name}}</a>
+        </td>
+        <td align="right">
+            <a class="btn btn-light" href="{% url 'updateEvent' event.eventID %}">Update</a>
+        </td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}

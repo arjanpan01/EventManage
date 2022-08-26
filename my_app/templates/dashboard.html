@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class = "my-5">
+    <form method=POST>
+        {% csrf_token %}
+        {{dateSelect}}
+        <input type="submit" value="Go">
+    </form>
+</div>
+
+<table class="table" id="dashboard">
+    <thead>
+        <tr>
+            <th>Time</th>
+            <th>Attendee</th>
+            <!-- <th>Company</th>
+            <th></th> -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in listForDash %}
+            <tr>
+                <td>{{item.0}}</td>
+                {% if item.1 != None %}
+                <td>
+                    {% for person in item %} 
+                        {% if person.1 != None %}
+                            {{person.0}} {{person.1}} {{person.2}} {{person.3}} - {{person.4}}<br>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                {% else %}
+                <td></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-5 offset-md-5">
+        <button type="button" class="btn btn-primary">Download as CSV</button>
+    </div>
+</div>
+
+
+<h3 class = "my-5">Attendee list for {{ selectDate }}</h3>
+
+<table class="table">  
+    {% for person in listOfPeople %}
+        <!-- {{person.1.0}} -->
+        <tr><td><a href="{% url 'attendeeView' person.0 event.eventID %}">{{ person.1.0 }} {{ person.1.1 }}</a></td></tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
